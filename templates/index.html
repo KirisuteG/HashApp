@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>HASH APP</title>
+        <!-- BOOSTRAP -->
+        <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.css')}}">
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css?family=Lacquer&display=swap" rel="stylesheet">
+        <!-- MAIN CSS -->
+        <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    </head>
+
+    <body>
+        <main class="container p-4">
+            <h1 class="display-4 text-center title mt-4">Hash List</h1>
+            <div class="row">
+
+                <div class="col-md-4 offset-md-4 my-auto">
+
+                    <div class="card">
+                        <div class="card-header">
+                        <!-- formulario ruta chain Post-->
+                            <form action="/chain" method="POST">
+                                <div class="form-group">
+                                <!--- se accede a el input con id content-->
+                                <!-- request form: content base de datos -->
+                                <input type="text" name="content" placeholder="Task" class="form-control" autofocus>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Save</button>
+                            </form>
+                        </div>
+
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <!-- listar hash de la base de datos-->
+                                {% for task in tasks %}
+                                <li class="list-group-item">
+                                    <span class="{% if task.done %} done {% endif %}">{{task.content}}</span>
+                                    <a href="/chain/done/{{task.id}}" class="btn btn-success btn-sm">Done</a>
+                                    <a href="/chain/delete/{{task.id}}" class="btn btn-danger btn-sm">Delete</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </body>
