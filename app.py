@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 
@@ -20,7 +21,7 @@ def home():
 
 @app.route('/chain', methods=['POST'])
 def create():
-    task = Task(content=request.form['content'],done=False)  
+    task = Task(content=generate_password_hash(request.form['content']),done=False)  
     db.session.add(task)
     db.session.commit()
     return redirect(url_for('home'))
