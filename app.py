@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(256))
-
+    done = db.Column(db.Boolean)
 
 @app.route('/chain', methods=['GET'])
 def home():
@@ -19,7 +19,7 @@ def home():
 
 @app.route('/chain', methods=['POST'])
 def create():
-    task = Task(content=generate_password_hash(request.form['content']))  
+    task = Task(content=generate_password_hash(request.form['content']),done=False)  
     db.session.add(task)
     db.session.commit()
     return redirect(url_for('home'))
@@ -31,20 +31,7 @@ def last():
 
 @app.route('/api/v1/chain/', methods=['GET'])
 def json():
-    tasks = Task.query.all()
-    dict = {}
-    j = 0
-    for i in tasks:
-        dict[j]=i
-        j+=1
-    return jsonify(dict)
-
-@app.route('/chain/done/<id>')
-def done(id):
-    task = Task.query.filter_by(id=int(id)).first()
-    task.done = not(task.done)
-    db.session.commit()
-    return redirect(url_for('home'))
+    return jsonify(Task.query.all())
 
 @app.route('/chain/delete/<id>')
 def delete(id):
@@ -54,4 +41,4 @@ def delete(id):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=True)  
+    app.run(host='0.0.0.0',port=3000, debug=True)  
