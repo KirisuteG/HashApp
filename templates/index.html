@@ -34,8 +34,7 @@
                                 <!-- listar hash de la base de datos-->
                                 {% for task in tasks %}
                                 <li class="list-group-item">
-                                    <span class="{% if task.done %} done {% endif %}">{{task.content}}</span>
-                                    <a href="/chain/done/{{task.id}}" class="btn btn-success btn-sm">Done</a>
+                                    <span>{{task.content}}</span>
                                     <a href="/chain/delete/{{task.id}}" class="btn btn-danger btn-sm">Delete</a>
                                 </li>
                                 {% endfor %}
